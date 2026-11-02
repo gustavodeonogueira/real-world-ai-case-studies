@@ -1,0 +1,16 @@
+flowchart TD
+    W["WhatsApp / CRM"] --> A["Maia - LLM agent / Agente LLM"]
+    A -->|"Availability request / Consulta"| N["n8n / Webhooks"]
+    N --> V["Validate service, date and business window / Validar regras"]
+    V -->|"Read / Consultar"| G["Google Calendar"]
+    G -->|"Available slots / Horarios livres"| N
+    N --> A
+    A -->|"User selects and confirms / Usuario confirma"| C["n8n confirmation / Confirmacao"]
+    C --> R["Revalidate and acquire booking guard / Revalidar e reservar"]
+    R -->|"Create event / Criar evento"| G
+    G -->|"Known success / Sucesso comprovado"| S["Confirm to user / Confirmar ao usuario"]
+    C -->|"Uncertain write / Gravacao incerta"| U["Retain guard and reconcile / Manter reserva e reconciliar"]
+    V -->|"Invalid input or query failure / Erro"| E["No booking confirmation / Nao confirmar"]
+    U --> H["Human review / Atendimento humano"]
+    E --> H
+    A -->|"Unsupported request / Solicitacao nao suportada"| H
